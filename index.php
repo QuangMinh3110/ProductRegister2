@@ -1,48 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-</head>
 <body>
-	<form method="post" action="productRegist.php">
-		<table>
-			<tr>
-				<td>Name</td>
-				<td><input type="text" name="txtName"></td>
-			</tr>
-			<tr>	
-				<td>Course</td>
-				<td>
-					<select name="cbCourse">
-						<option value="iphone">iphone XS</option>
-						<option value="Nokia">Nokia 1280</option>
-						<option value="Samsung">Galaxy X9</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Date of Birth</td>
-				<td><input type="Date" name="dob"/></td>
-			</tr>
-			<tr>
-				<td>Gender</td>
-				<td>
-					<input type="radio" name="gender" value="Male">Male
-					<input type="radio" name="gender" value="Female">Female
-				</td>
-			</tr>
-			<tr>
-				<td>Favorites</td>
-				<td>
-					<input type="checkbox" name="game" value="game">game
-					<input type="checkbox" name="sport" value="sport">sport
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" name="Register"></td>
-			</tr>
-		</table>
-	</form>
+
+<h1>My first PHP page</h1>
+
+<?php
+	echo "Show all rows from Postgres Database";
+	
+	//Refere to database 
+	$db = parse_url(getenv("DATABASE_URL"));
+	$pdo = new PDO("pgsql:" . sprintf(
+	    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+	    $db["host"],
+	    $db["port"],
+	    $db["user"],
+	    $db["pass"],
+	    ltrim($db["path"], "/")
+	));
+	//you sql query
+	$sql = "SELECT productid, name, price FROM product";
+	$stmt = $pdo->prepare($sql);
+	//execute the query on the server and return the result set
+	$stmt->setFetchMode(PDO::FETCH_ASSOC);
+	$stmt->execute();
+	$resultSet = $stmt->fetchAll();
+	//display the data 
+?>
+<ul>
+	<?php
+		foreach ($resultSet as $row) {
+			echo "<li>" .
+				$row["productid"] . '--'. $row["name"] . '--'. $row["price"]
+			. "</li>";
+		}
+	?>
+</ul>
+
 </body>
 </html>

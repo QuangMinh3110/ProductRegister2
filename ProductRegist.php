@@ -34,8 +34,8 @@
 	 <ul>
 	 	<li><?php echo $productid?></li>
 	 	<li><?php echo $name?></li>
-	 	<li><?php echo $prict?></li>
+	 	<li><?php echo $price?></li>
 	 </ul>
-	 <a href="index2.php">Index2</a>
+	 <a href="index.php">Index</a>
 </body>
 </html>
